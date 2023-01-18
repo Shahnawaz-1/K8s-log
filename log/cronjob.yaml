@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: shan
+spec:
+  schedule: "0 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: log-container
+            image: dockercontainer12345678/jobv4
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+            - name: config-volume
+              mountPath: /kubeconfig
+            - name: volume
+              mountPath: /kubectl-event-logs
+          volumes:
+          - name: volume
+            hostPath:
+              path: /home/core/shan/kubectl-event-logs
+              type: DirectoryOrCreate
+          - name: config-volume
+            configMap:
+              name: log-config
+          restartPolicy: OnFailure

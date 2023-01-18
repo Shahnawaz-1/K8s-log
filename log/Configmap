@@ -1,0 +1,2 @@
+kubectl create cm log-confi2 --from-file=<your path of kubeconfig>
+
